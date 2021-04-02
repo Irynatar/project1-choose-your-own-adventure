@@ -1,0 +1,23 @@
+{
+  "name": "project1-choose-your-own-adventure",
+  "version": "1.0.0",
+  "description": "This is repository for the project 1 EvolveU program",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Irynatar/project1-choose-your-own-adventure.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Irynatar/project1-choose-your-own-adventure/issues"
+  },
+  "homepage": "https://github.com/Irynatar/project1-choose-your-own-adventure#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
