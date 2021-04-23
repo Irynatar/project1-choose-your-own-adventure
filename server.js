@@ -1,11 +1,12 @@
 import express from 'express';
 import path from 'path';
-import {db} from './model/db.js'
+import {db} from './model/db.js';
+import ejs from 'ejs';
 
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
-import {steps} from './model/steps.js';
+// import {steps} from './model/steps.js';
 import {host, port} from './settings.js';
 
 import bodyParser from 'body-parser';
@@ -40,7 +41,7 @@ app.get('/intro', async (req, res) => {
     let dbRes = await db.collection("users").findOne({name:name});
 
     res.render('layout', {
-      answerText: `Hello ${dbRes.name}. Today is a  wonderful day! You and your sister are going to Paris to visit your relatives. You grab your bags and dump them in the boot of the Uber that is taking you to the airport. You clamber into the backseat with your sister and fall into a light sleep. You are quietly snoring when you hear the tyres skid to a stop. Something in your gut tells you that you are not safe anymore. To continue go to <a href=${host}/step/step1>step1</a>`
+      answerText: `Hello ${dbRes.name}! Today is a  wonderful day! You and your sister are going to Paris to visit your relatives. You grab your bags and dump them in the boot of the Uber that is taking you to the airport. You clamber into the backseat with your sister and fall into a light sleep. You are quietly snoring when you hear the tyres skid to a stop. Something in your gut tells you that you are not safe anymore. To continue go to <a href=${host}/step/step1>step1</a>`
     });
   } else {
     res.redirect('/')
@@ -48,19 +49,25 @@ app.get('/intro', async (req, res) => {
 })
 
 
-app.get('/step/:stepId', (req, res) => {
+app.get('/step/:stepId', async (req, res) => {
 
   let stepId = req.params.stepId
   let answer = req.query.answer;
-  let step = steps[stepId];
-  let answerText = step._default;
+
+  let step = await db.collection('steps').findOne({name: stepId})
+  let answers = step ? step.answers : {};
+  
+  console.log('step: ', step);
+  let answerText = answers._default;
 
   if(answer) {
-    answerText = step[answer]
+    answerText = answers[answer];
+    
   }
 
+  console.log('answerText: ', answerText);
   res.render('layout', {
-    answerText: answerText
+    answerText: ejs.render(answerText, {host: host})
   });
 
 })
