@@ -10,6 +10,11 @@
     * mongodb: "npm install mongodb", 
     * ejs: "npm install ejs"
 
+### load collections data
+
+To load initial data run "mongorestore -d choose_adventure initDb/choose_adventure"
+
+
 ### start the program using command "npm start";
 
 ### open the browser typing "localhost:3000" in search field
